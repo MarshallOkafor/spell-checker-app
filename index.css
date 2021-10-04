@@ -1,0 +1,101 @@
+/* This is to use a unified border size */
+* {
+  box-sizing: border-box;
+}
+
+/* style of the body tag */
+body {
+	font-family: Verdana;
+	color: black;
+	
+}
+
+/* style of the page header tag */
+.header {
+	background-color: #e5e5e5;
+	padding: 1px;
+	text-align: center;
+}
+
+/* style to account for overflowing content in the text area, menu and the suggestion area */
+.whole {
+	overflow:auto;
+}
+
+/* style of the menu */
+.menu {
+  float: left;
+  width: 10%;
+  text-align: center;
+}
+
+/* style of the menu item */
+.menu a {
+  background-color: #e5e5e5;
+  padding: 8px;
+  margin-top: 7px;
+  display: block;
+  width: 100%;
+  color: black;
+  font-size: 12px;
+}
+
+/* style of the text area section to align properly */
+.main {
+  float: left;
+  width: 50%;
+  height: 450px;
+  padding: 0 20px;
+}
+
+/* style of the text box to title the document */
+input[type=text] {
+	outline:none;
+	padding: 2px;
+	border: 1px solid black;
+	width: 100%;
+}
+
+/* style of the text area tag*/
+textarea {
+	width: 100%;
+	height: 87%;
+	border: 1px solid;
+	outline: none;
+}
+
+/* style of the suggestion area */
+.right {
+  background-color: #e5e5e5;
+  float: left;
+  width: 40%;
+  margin-top: 7px;
+  padding: 2px;
+  text-align: left;
+  height: 450px;
+}
+
+/* Ensure that the width remains uniform when resized */
+@media only screen and (max-width: 620px) {
+  /* For mobile phones: */
+  .menu, .main, .right {
+    width: 100%;
+  }
+}
+
+/* style of the footer area */
+.footer {
+	background-color:#e5e5e5;
+	text-align:center;
+	padding:10px;
+	margin-top:7px;
+}
+
+.suggest-text {
+ getTextBox();
+}
+
+function getTextBox(){
+    String k = document.getElementById('Etext').value;
+    return k;
+  }
