@@ -1,56 +1,55 @@
-<!DOCTYPE html/>
+<!DOCTYPE html>
 <html>
-        <head>
-                <title>ProjectOne</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <link rel="stylesheet" href="index.css">
-        </head>
+<head>
+<title>ProjectOne</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="index.css">
+</head>
+<!-- body of the HTML content -->
+<body>
 
-        <!-- body of the HTML content -->
-        <body>
+<!-- The content header -->
+<div class="header">
+  <h1>ProjectOne Spell Checker Machine</h1>
+</div>
 
-                <!-- The content header -->
-                <div class="header">
-                        <h1>ProjectOne Spell Checker Machine</h1>
-                </div>
+<!-- The menu to use to manipulate the HTML page -->
+<div class="whole">
+  <div class="menu">
+    <a href="#">New document</a>
+    <a href="#">Upload file</a>
+    <a href="#">Download file</a>
+    <a href="#">Print</a>
+  </div>
 
-                 <!-- The menu to use to manipulate the HTML page -->
-                <div class="whole">
-                        <div class="menu">
-                                <a href="#">New document</a>
-                                <a href="#">Upload file</a>
-                                <a href="#">Download file</a>
-                                <a href="#">Print</a>
-                        </div>
+<!-- The text area to collect the texts to be checked -->
+  <div class="main">
+  <br>
+    <textarea class="text-body" id = "Etext" placeholder="Enter your text here"></textarea>
+	<button type="button" onclick="getTextBox()">Try it</button>
+  </div>
 
-                        <!-- The text area to collect the texts to be checked -->
-                        <div class="main"><br>
-                                <textarea class="text-body" id = "Etext" placeholder="Enter your text here"></textarea>
-	                              <button type="button" onclick="getTextBox()">Try it</button>
-                        </div>
+<!-- The correction arear to display the suggested texts -->
+  <div class="right" >
+    <p class="suggest-text" id="Otext">Output will display here!</p>
+  </div>
+</div>
 
-                        <!-- The correction arear to display the suggested texts -->
-                        <div class="right" >
-                                 <p class="suggest-text" id="Otext">Output will display here!</p>
-                        </div>
-                </div>
+<!-- The footer of the HTML page -->
+<div class="footer">© copyright Group-4 CSCI-5030 2021</div>
+<!--Java Script-->
+<script>
+function getTextBox()
+{
+    var text = document.getElementById("Etext").value;
+	var words = text.split(" ");
+	let output = words.join(" <br>");
+	document.getElementById("Otext").innerHTML = output;
+}
+</script>
 
-                <!-- The footer of the HTML page -->
-                <div class="footer">© copyright Group-4 CSCI-5030 2021</div>
+</body>
 
-                <!--Java Script-->
-                <script>
-                        function getTextBox()
-                        {
-                                var text = document.getElementById("Etext").value;
-	                              var words = text.split(" ");
-	                              let output = words.join(" <br>");
-	                              document.getElementById("Otext").innerHTML = output;
-                        }
-                </script>
-
-        </body>
-
-        <!--End of page -->
+<!--End of page -->
 
 </html>
