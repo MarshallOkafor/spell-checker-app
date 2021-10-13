@@ -1,9 +1,8 @@
 from gingerit.gingerit import GingerIt
 print("Enter the Text")
-data=open("demo.txt").read()
-word=split(data)
+data=open("C:\python\demo.txt").read()
 list=[]
-result = GingerIt().parse(word)
+result = GingerIt().parse(data)
 corrections = result['corrections']
 correctText = result['result']
 
