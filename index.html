@@ -1,7 +1,7 @@
 <!DOCTYPE html/>
 <html>
         <head>
-                <title>ProjectOne</title>
+                <title>Group4spellchecker</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link rel="stylesheet" href="index.css">
         </head>
@@ -11,27 +11,29 @@
 
                 <!-- The content header -->
                 <div class="header">
-                        <h1>ProjectOne Spell Checker Machine</h1>
+                        <h1>G4 Spell Checker Machine</h1>
                 </div>
 
                  <!-- The menu to use to manipulate the HTML page -->
                 <div class="whole">
                         <div class="menu">
-                                <a href="#">New document</a>
-                                <a href="#">Upload file</a>
-                                <a href="#">Download file</a>
-                                <a href="#">Print</a>
+                                <a href="#" class = "button">New document</a>
+                                <a href="#" class = "button">Upload file</a>
+                                <a href="#" class = "button">Download file</a>
+                                <a href="#" class = "button">Print</a>
                         </div>
 
                         <!-- The text area to collect the texts to be checked -->
-                        <div class="main"><br>
-                                <textarea class="text-body" id = "Etext" placeholder="Enter your text here"></textarea>
-	                              <button type="button" onclick="getTextBox()">Try it</button>
+                        <div class="main">
+                                <h3><input type="text" id="title" placeholder="Untitled document"></h3>
+                                <textarea class="text-body" id = "Etext" placeholder="Type or paste your text here or upload document"></textarea>
+	                        <button type="button" onclick="getTextBox()">Try it</button>
                         </div>
 
                         <!-- The correction arear to display the suggested texts -->
                         <div class="right" >
-                                 <p class="suggest-text" id="Otext">Output will display here!</p>
+                                <p id="suggest-text">Corrected suggestions</p>
+                                <p id="Otext">Output will display here!</p>
                         </div>
                 </div>
 

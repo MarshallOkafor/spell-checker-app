@@ -6,15 +6,14 @@
 /* style of the body tag */
 body {
 	font-family: Verdana;
-	color: black;
-	
 }
 
 /* style of the page header tag */
 .header {
-	background-color: #e5e5e5;
+	background-color: LightSlateGrey;
 	padding: 1px;
 	text-align: center;
+  color: white;
 }
 
 /* style to account for overflowing content in the text area, menu and the suggestion area */
@@ -31,13 +30,24 @@ body {
 
 /* style of the menu item */
 .menu a {
-  background-color: #e5e5e5;
-  padding: 8px;
   margin-top: 7px;
   display: block;
   width: 100%;
   color: black;
-  font-size: 12px;
+}
+
+/* style of the menu button class */
+.button {
+  background-color: LightSteelBlue;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
 /* style of the text area section to align properly */
@@ -46,6 +56,13 @@ body {
   width: 50%;
   height: 450px;
   padding: 0 20px;
+  color: black;
+}
+
+/* style of the header for the suggestion area */
+#suggest-text{
+	color: black;
+	font-weight: bold;
 }
 
 /* style of the text box to title the document */
@@ -54,25 +71,38 @@ input[type=text] {
 	padding: 2px;
 	border: 1px solid black;
 	width: 100%;
+  color: black;
 }
 
 /* style of the text area tag*/
-textarea {
+textarea.text-body {
 	width: 100%;
 	height: 87%;
 	border: 1px solid;
 	outline: none;
+  color: black;
+}
+
+/* style of the text area tag*/
+textarea.text-correct{
+	width: 100%;
+	height: 88%;
+	border: 1px solid;
+	outline: none;
+	margin-top: 2px;
+	color: black;
 }
 
 /* style of the suggestion area */
 .right {
-  background-color: #e5e5e5;
+  background-color: LightSteelBlue;
   float: left;
   width: 40%;
   margin-top: 7px;
   padding: 2px;
   text-align: left;
   height: 450px;
+  color: black;
 }
 
 /* Ensure that the width remains uniform when resized */
@@ -85,17 +115,10 @@ textarea {
 
 /* style of the footer area */
 .footer {
-	background-color:#e5e5e5;
+	background-color:LightSlateGrey;
 	text-align:center;
 	padding:10px;
 	margin-top:7px;
+  color: black;
+	font-weight: bold;
 }
-
-.suggest-text {
- getTextBox();
-}
-
-function getTextBox(){
-    String k = document.getElementById('Etext').value;
-    return k;
-  }
