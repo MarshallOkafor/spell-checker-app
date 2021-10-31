@@ -66,31 +66,14 @@ body {
 }
 
 /* style of the text box to title the document */
-input[type=text] {
+input[type=text], select{
 	outline:none;
 	padding: 2px;
 	border: 1px solid black;
 	width: 100%;
   color: black;
-}
-
-/* style of the text area tag*/
-textarea.text-body {
-	width: 100%;
-	height: 87%;
-	border: 1px solid;
-	outline: none;
-  color: black;
-}
-
-/* style of the text area tag*/
-textarea.text-correct{
-	width: 100%;
-	height: 88%;
-	border: 1px solid;
-	outline: none;
-	margin-top: 2px;
-	color: black;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 /* style of the suggestion area */
@@ -121,4 +104,22 @@ textarea.text-correct{
 	margin-top:7px;
   color: black;
 	font-weight: bold;
+}
+
+/* style of the text body */
+.text-body {
+  width: 100%;
+  height: auto;
+  min-height: 88%;
+  border: 1px #000000 solid;
+	margin-top: 2px;
+  padding: 8px;
+  font-size: 12px;
+  overflow: scroll;
+}
+.text-body:empty:before {
+  content: attr(data-placeholder);
+}
+.text-error {
+  border-bottom: 3px solid rgb(255, 153, 171);
 }
