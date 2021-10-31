@@ -22,19 +22,20 @@
                         <!-- The menu to use to manipulate the HTML page -->
                         <div class="whole">
                                 <div class="menu">
-                                        <a href="#" class = "button">New document</a>
-                                        <a href="#" class = "button">Upload file</a>
-                                        <a href="#" class = "button">Download file</a>
-                                        <a href="#" class = "button">Print</a>
+                                        <a href="#" class = "button">New document/Doiciméad nua</a>
+                                        <a href="#" class = "button">Upload file/Uaslódáil comhad</a>
+                                        <a href="#" class = "button">Download file/Íoslódáil an comhad</a>
+                                        <a href="#" class = "button">Print/Priontáil</a>
                                 </div>
         
                                 <!-- The text area to collect the texts to be checked -->
                                 <div class="main">
                                         <select name="lang">
                                                 <option value="en"> English</option>
+						<option value="ir"> Irish</option>
                                         </select>
                                         <div class="text-body" contenteditable="true" spellcheck="false" @input="event => onInput(event)" 
-                                                data-placeholder="Type or paste your text here or upload document" v-html="richText">
+                                                data-placeholder="Type or paste your text here or upload document <br> Clóscríobh nó greamaigh do théacs anseo nó uaslódáil doiciméad " v-html="richText">
                                         </div>
 
 	                                <button @click="checkTextGrammar">Check Spelling</button>
@@ -42,8 +43,8 @@
         
                                 <!-- The correction arear to display the suggested texts -->
                                 <div class="right" >
-                                        <p id="suggest-text">Corrected suggestions</p>
-                                        <p id="Otext">Output will display here!</p>
+                                        <p id="suggest-text">Corrected suggestions/Moltaí ceartaithe</p>
+                                        <p id="Otext">Output will display here!<br>Taispeánfar aschur anseo!</p>
                                 </div>
                         </div>
         
