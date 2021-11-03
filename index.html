@@ -41,10 +41,13 @@
 	                                <button @click="checkTextGrammar">Check Spelling</button>
                                 </div>
         
-                                <!-- The correction arear to display the suggested texts -->
+                                <!-- The correction area to display the suggested texts -->
                                 <div class="right" >
                                         <p id="suggest-text">Corrected suggestions/Moltaí ceartaithe</p>
-                                        <p id="Otext">Output will display here!<br>Taispeánfar aschur anseo!</p>
+                                        <ul>
+                                                <li v-for=" (word, index) in correctedWords"> {{ word.correct }} <button
+                                                @click="replaceWord(word)">replace</button></li>
+                                        </ul>
                                 </div>
                         </div>
         
@@ -53,13 +56,62 @@
                 </div>
                         <!--Java Script-->
                         <script>
-                                function getTextBox()
-                                {
-                                        var text = document.getElementById("Etext").value;
-	                                      var words = text.split(" ");
-	                                      let output = words.join(" <br>");
-	                                      document.getElementById("Otext").innerHTML = output;
-                                }
+                                var app = new Vue({
+                                        el: '#app',
+                                        data: {
+                                                message: 'Hello Vue!',
+                                                text: '',
+                                                richText: null,
+                                                event: null,
+                                                correctedWords: [],
+                                                timeoutQuery: null
+                                        }, 
+                                        methods: {
+                                                async checkTextGrammar() {
+                                                        // strip html tags
+                                                        const txt = this.text.replaceAll(/(<([^>]+)>)/ig, '');
+                                                  
+                                                        // Get corrections from api
+                                                        axios
+                                                                .post('http://127.0.0.1:5000/api/v1/check', { text: txt })
+                                                                .then(response => {
+                                                  
+                                                                         const existingCorrections = this.correctedWords;
+                                                                         // Set text corrections
+                                                                         this.correctedWords = response.data.data.corrections.reverse()
+                                                                                 let newTex = this.text
+                                                                         // Add error to incorrect words
+                                                                         this.correctedWords.forEach(word => {
+                                                                                 const existingCorrection = existingCorrections.find(exWord => exword.text === word.text)
+                                                                                 console.log(word);
+                                                                                 newTex = newTex.replace(word.text, `<span class="text-error">${word.text}</span>`)
+                                                        
+                                                                         });
+                                                                         this.richText = newTex
+                                                                         this.event.target.blur();//disable cursor
+                                                                })
+                                                                .catch(error => {
+                                                                        this.answer = 'Error! Could not reach the API. ' + error
+                                                                })
+                                                },
+                                                replaceWord(word) {
+                                                        console.log(this.richText);
+                                                        // replace word 
+                                                        this.richText = this.richText.replaceAll(`<span class="text-error">${word.text}</span>`, word.correct)
+                                                        // remove word from corrected words
+                                                        this.correctedWords = this.correctedWords.filter(correctedWord => correctedWord.correct !== word.correct)
+                                                  
+                                                        console.log(this.richText);
+                                                },
+                                                onInput(event) {
+                                                        const value = event.target.innerText;
+                                                        this.event = event
+                                                        this.text = value;
+                                                },
+                                        },
+                                        watch: {}  
+                                })                                   
+                                
                         </script>
 
         </body>
