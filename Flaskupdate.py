@@ -1,31 +1,31 @@
-from gingerit.gingerit import GingerIt   #Initiates the Ginger IT
-from flask import Flask, render_template, request  #Initiates the Flask function
+# Python file to conduct the spell check. Comparison is done using the gingerit library which also checks for context spellings
+# Import flask, gingerit and dotenv modules
 
-app = Flask(_name_)   #Initiates the reference
+from gingerit.gingerit import GingerIt   
+from flask import Flask, render_template, request, jsonify, make_response  
+from flask_cors import CORS
+from dotenv import load_dotenv
 
-@app.route('/')               
-def index():
-    return render_template("index.html")    #renders the index .html file template
+load_dotenv()  # take environment variables from .env.
 
-@app.route('/', methods=['post'])
-def check():
-    text = request.form['takeinput']          #transfer the out put from the Front end to the inout function in this backend file
-    iwords = text.strip().lower().split()   # splits , lowers and transforms the inout text into list for better time complexity
-    list=[]                       
-    result = GingerIt().parse(iwords)                 #Initiates the Ginger IT comparing the text to the database
-    corrections = result['corrections']
-    correctText = result['result']
-    for d in corrections:
-       if d['text'] == d['correct']:
-           print()
-       else:
-           print("________________")    
-           print("Previous:",d['text'])  
-           print("Correction:",d['correct'])
-           list.append(d['correct'])        
-    return render_template('index.html', output= list)    #returns the outputs to the front end
+# Initializes Flask app
+app = Flask(__name__)   
+CORS(app)
 
+# Pyhton method collects the user text as JSON and parses it to GingerIt for spell checking
+@app.route('/api/v1/check', methods=['post'])
+def checkText():
+    try:
+        text = request.get_json()["text"]          # Get text from front end as a JSON string
+        corrected_text = GingerIt().parse(text)    # Text is compared with GingerIT library
+        return make_response(jsonify({
+        "status": "success", "data": corrected_text    # Returns corrected text
+        }), 200)
+    except:
+        return make_response(jsonify({
+        "status": "error", "message": "An error occur"     # Catches any error that occurs during comparison
+        }), 400)
 
-
-if _name_ == '_main_':      #main function
-    app.run(debug=True)
+# main function
+if __name__ == '__main__':      
+    app.run(debug = True) # run our Flask app
