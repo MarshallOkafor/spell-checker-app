@@ -1,8 +1,9 @@
 <!DOCTYPE html/>
-<html>
+<html lang=en>
         <!--The website header contents and links-->
         <head>
                 <title>Group4spellchecker</title>
+				<meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link rel="stylesheet" href="index.css">
                 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
@@ -22,40 +23,78 @@
                         <!-- The menu to use to manipulate the HTML page -->
                         <div class="whole">
                                 <div class="menu">
-                                        <a href="#" class = "button">New document/Doiciméad nua</a>
-                                        <a href="#" class = "button">Upload file/Uaslódáil comhad</a>
-                                        <a href="#" class = "button">Download file/Íoslódáil an comhad</a>
-                                        <a href="#" class = "button">Print/Priontáil</a>
+                                        <a id = 'nd'  class = "button">New Document</a>
+                                        <a id = 'uf' class = "button">Upload file</a>
+                                        <a id = 'df' class = "button">Download file</a>
+                                        <a id = 'prt' class = "button">Print</a>
+
                                 </div>
         
                                 <!-- The text area to collect the texts to be checked -->
                                 <div class="main">
-                                        <select name="lang">
-                                                <option value="en"> English</option>
-						<option value="ir"> Irish</option>
-                                        </select>
-                                        <div class="text-body" contenteditable="true" spellcheck="false" @input="event => onInput(event)" 
-                                                data-placeholder="Type or paste your text here or upload document <br> Clóscríobh nó greamaigh do théacs anseo nó uaslódáil doiciméad " v-html="richText">
+								<div>
+								<a href="#english" class = 'button' data-reload>English</a>
+								<a href="#irish" class = 'button' data-reload>Irish</a>
+								</div>
+								<br>
+                                 <div class="text-body" id = "mainContentBox" contenteditable="true" spellcheck="false" @input="event => onInput(event)" 
+                                                data-placeholder="Type or paste your text here or upload document!" v-html="richText">
                                         </div>
 
-	                                <button @click="checkTextGrammar">Check Spelling</button>
+	                                <button @click="checkTextGrammar" id = 'CSbutton'>Check Spelling</button>
                                 </div>
         
                                 <!-- The correction area to display the suggested texts -->
                                 <div class="right" >
-                                        <p id="suggest-text">Corrected suggestions/Moltaí ceartaithe</p>
+                                        <p id="suggest-text">Corrected suggestions</p>
                                         <ul>
                                                 <li v-for=" (word, index) in correctedWords"> {{ word.correct }} <button
-                                                @click="replaceWord(word)">replace</button></li>
+                                                @click="replaceWord(word)" id = 'rpl' >replace</button></li>
                                         </ul>
                                 </div>
                         </div>
         
                         <!-- The footer of the HTML page -->
-                        <div class="footer">© copyright Group-4 CSCI-5030 2021</div>
+                        <div class="footer" id ='ftr'>© copyright Group-4 CSCI-5030 2021</div>
                 </div>
                         <!--Java Script-->
                         <script>
+						
+						<!-- Script for Multi-Lingual Frontend -->
+						var DataReload = document.querySelectorAll("[data-reload]");											
+						window.addEventListener('hashchange', function () {  						
+						//Defining language via window hash
+						if(window.location.hash) {
+						if(window.location.hash == "#irish"){
+						document.getElementById("nd").innerText = "Doiciméad nua";
+						document.getElementById("uf").innerText = "Uaslódáil comhad";
+						document.getElementById("df").innerText = "Íoslódáil an comhad";
+						document.getElementById("prt").innerText = "Priontáil";
+						document.getElementById("CSbutton").innerText = "Seiceáil Litriú";	
+						document.getElementById("suggest-text").innerText = "Moltaí ceartaithe";
+						document.getElementById("rpl").innerText = "ionad";
+						document.getElementById("ftr").innerText = "© cóipcheart Grúpa-4 CSCI-5030 2021";
+						} 
+						else if(window.location.hash == "#english"){
+						document.getElementById("nd").innerText = "New Document";
+						document.getElementById("uf").innerText = "Upload file";
+						document.getElementById("df").innerText = "Download file";
+						document.getElementById("prt").innerText = "Print";
+						document.getElementById("CSbutton").innerText = "Check Spelling";
+						document.getElementById("suggest-text").innerText = "Corrected suggestions";
+						document.getElementById("rpl").innerText = "replace";
+						document.getElementById("ftr").innerText = "© copyright Group-4 CSCI-5030 2021";
+						}
+
+						//Language reload onclick iteration 
+						for (i=0; i<= DataReload.length; i++) 
+						{
+						 DataReload[i] = function () 	{ location.reload(true); };
+						}						
+						}
+						}, false);
+						
+						<!--Script for Backend-->
                                 var app = new Vue({
                                         el: '#app',
                                         data: {
@@ -110,8 +149,11 @@
                                                 },
                                         },
                                         watch: {}  
-                                })                                   
+                                }) 								
                                 
+							 
+				
+							
                         </script>
 
         </body>
