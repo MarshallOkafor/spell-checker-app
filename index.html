@@ -33,8 +33,8 @@
                                 <!-- The text area to collect the texts to be checked -->
                                 <div class="main">
 								<div>
-								<a href="#english" class = 'button' data-reload>English</a>
-								<a href="#irish" class = 'button' data-reload>Irish</a>
+                                                                        <button @click="setLanguage('english')" class='button' data-reload>English</button>
+                                                                        <button @click="setLanguage('irish')"  class='button' data-reload>Irish</button>
 								</div>
 								<br>
                                  <div class="text-body" id = "mainContentBox" contenteditable="true" spellcheck="false" @input="event => onInput(event)" 
@@ -53,6 +53,8 @@
                                         </ul>
                                 </div>
                         </div>
+                        Irish response: {{ irishResponse }} <br>
+                        Language: {{ language }}
         
                         <!-- The footer of the HTML page -->
                         <div class="footer" id ='ftr'>© copyright Group-4 CSCI-5030 2021</div>
@@ -60,41 +62,40 @@
                         <!--Java Script-->
                         <script>
 						
-						<!-- Script for Multi-Lingual Frontend -->
-						var DataReload = document.querySelectorAll("[data-reload]");											
-						window.addEventListener('hashchange', function () {  						
-						//Defining language via window hash
-						if(window.location.hash) {
+				// Script for Multi-Lingual Frontend 
+				var DataReload = document.querySelectorAll("[data-reload]");											
+				window.addEventListener('hashchange', function () {  						
+					//Defining language via window hash
+					if(window.location.hash) {
 						if(window.location.hash == "#irish"){
-						document.getElementById("nd").innerText = "Doiciméad nua";
-						document.getElementById("uf").innerText = "Uaslódáil comhad";
-						document.getElementById("df").innerText = "Íoslódáil an comhad";
-						document.getElementById("prt").innerText = "Priontáil";
-						document.getElementById("CSbutton").innerText = "Seiceáil Litriú";	
-						document.getElementById("suggest-text").innerText = "Moltaí ceartaithe";
-						document.getElementById("rpl").innerText = "ionad";
-						document.getElementById("ftr").innerText = "© cóipcheart Grúpa-4 CSCI-5030 2021";
+						        document.getElementById("nd").innerText = "Doiciméad nua";
+						        document.getElementById("uf").innerText = "Uaslódáil comhad";
+						        document.getElementById("df").innerText = "Íoslódáil an comhad";
+						        document.getElementById("prt").innerText = "Priontáil";
+						        document.getElementById("CSbutton").innerText = "Seiceáil Litriú";	
+						        document.getElementById("suggest-text").innerText = "Moltaí ceartaithe";
+						        document.getElementById("rpl").innerText = "ionad";
+						        document.getElementById("ftr").innerText = "© cóipcheart Grúpa-4 CSCI-5030 2021";
 						} 
 						else if(window.location.hash == "#english"){
-						document.getElementById("nd").innerText = "New Document";
-						document.getElementById("uf").innerText = "Upload file";
-						document.getElementById("df").innerText = "Download file";
-						document.getElementById("prt").innerText = "Print";
-						document.getElementById("CSbutton").innerText = "Check Spelling";
-						document.getElementById("suggest-text").innerText = "Corrected suggestions";
-						document.getElementById("rpl").innerText = "replace";
-						document.getElementById("ftr").innerText = "© copyright Group-4 CSCI-5030 2021";
+						        document.getElementById("nd").innerText = "New Document";
+						        document.getElementById("uf").innerText = "Upload file";
+						        document.getElementById("df").innerText = "Download file";
+						        document.getElementById("prt").innerText = "Print";
+						        document.getElementById("CSbutton").innerText = "Check Spelling";
+						        document.getElementById("suggest-text").innerText = "Corrected suggestions";
+						        document.getElementById("rpl").innerText = "replace";
+						        document.getElementById("ftr").innerText = "© copyright Group-4 CSCI-5030 2021";
 						}
 
 						//Language reload onclick iteration 
-						for (i=0; i<= DataReload.length; i++) 
-						{
-						 DataReload[i] = function () 	{ location.reload(true); };
+						for (i=0; i<= DataReload.length; i++) {
+						        DataReload[i] = function () { location.reload(true); };
 						}						
-						}
-						}, false);
+					}
+				}, false);
 						
-						<!--Script for Backend-->
+				// Script for Backend
                                 var app = new Vue({
                                         el: '#app',
                                         data: {
