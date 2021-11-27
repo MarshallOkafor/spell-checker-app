@@ -61,7 +61,7 @@ body {
 
 /* style of the header for the suggestion area */
 #suggest-text{
-	color: black;
+	color: #607d8b;
 	font-weight: bold;
 }
 
@@ -81,9 +81,9 @@ input[type=text], select{
   background-color: #fff;
   float: left;
   width: 100%;
-  margin-top: 7px;
   padding: 16px;
   text-align: left;
+  border-radius: 0.25rem;
   height: 300px;
   color: rgb(109, 107, 107);
   box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
@@ -111,7 +111,7 @@ input[type=text], select{
 .text-body {
   width: 100%;
   height: auto;
-  min-height: 300%;
+  min-height: 300px;
   border: 1px #adb5bd solid;
   border-radius: 4px;
   padding: 8px;
@@ -125,4 +125,7 @@ input[type=text], select{
 }
 .text-error {
   border-bottom: 3px solid rgb(255, 153, 171);
+}
+.bg-blue {
+  background-color: #1565c0;
 }
