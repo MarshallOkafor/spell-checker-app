@@ -1,0 +1,131 @@
+/* This is to use a unified border size */
+* {
+  box-sizing: border-box;
+}
+
+/* style of the body tag */
+body {
+	font-family: Verdana;
+}
+
+/* style of the page header tag */
+.header {
+	background-color: LightSlateGrey;
+	padding: 1px;
+	text-align: center;
+  color: white;
+}
+
+/* style to account for overflowing content in the text area, menu and the suggestion area */
+.whole {
+	overflow:auto;
+}
+
+/* style of the menu */
+.menu {
+  float: left;
+  width: 10%;
+  text-align: center;
+}
+
+/* style of the menu item */
+.menu a {
+  margin-top: 7px;
+  display: block;
+  width: 100%;
+  color: black;
+}
+
+/* style of the menu button class */
+.button {
+  background-color: LightSteelBlue;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+/* style of the text area section to align properly */
+.main {
+  float: left;
+  width: 50%;
+  height: 450px;
+  padding: 0 20px;
+  color: black;
+}
+
+/* style of the header for the suggestion area */
+#suggest-text{
+	color: #607d8b;
+	font-weight: bold;
+}
+
+/* style of the text box to title the document */
+input[type=text], select{
+	outline:none;
+	padding: 2px;
+	border: 1px solid black;
+	width: 100%;
+  color: black;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+/* style of the suggestion area */
+.right {
+  background-color: #fff;
+  float: left;
+  width: 100%;
+  padding: 16px;
+  text-align: left;
+  border-radius: 0.25rem;
+  height: 300px;
+  color: rgb(109, 107, 107);
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+
+/* Ensure that the width remains uniform when resized */
+@media only screen and (max-width: 620px) {
+  /* For mobile phones: */
+  .menu, .main, .right {
+    width: 100%;
+  }
+}
+
+/* style of the footer area */
+.footer {
+	background-color:LightSlateGrey;
+	text-align:center;
+	padding:10px;
+	margin-top:7px;
+  color: black;
+	font-weight: bold;
+}
+
+/* style of the text body */
+.text-body {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  border: 1px #adb5bd solid;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 12px;
+  overflow: scroll;
+  background-color: #fff;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+.text-body:empty:before {
+  content: attr(data-placeholder);
+}
+.text-error {
+  border-bottom: 3px solid rgb(255, 153, 171);
+}
+.bg-blue {
+  background-color: #1565c0;
+}
