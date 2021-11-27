@@ -11,8 +11,6 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from irishspell import correct_spelling, unique_words, word_probability
 
-load_dotenv()  # take environment variables from .env.
-
 # Initializes Flask app
 app = Flask(__name__)   
 CORS(app)
@@ -39,21 +37,24 @@ def check():
     iwords = text.strip().lower().split()
     guesses = []
     r = []
-
+    corrections = []
+    
     for word in iwords:
         guesses = correct_spelling(word, unique_words, word_probability)   # guesses contain a word and its probability
         if len(guesses) != 0:
             cor_word, num = map(list, zip(*guesses))  # breaking guesses list to 2 lists
             n = num.index(max(num))      # finding index of max probability
             r.append(cor_word[n])
+            correction = {"correct":cor_word[n],"start": n, "text":word } 
+            corrections.append(correction)
         else:
             r.append(word)
 
         res = " "
-        res = res.join(r)
-
+        res = r
+    print(corrections)
     return make_response(jsonify({
-        "status": "success", "data": res    # Returns corrected text
+        "status": "success", "data": { "corrections": corrections }    # Returns corrected text
         }), 200)
 
 # main function
