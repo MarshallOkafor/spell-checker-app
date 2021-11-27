@@ -8,76 +8,109 @@
                 <link rel="stylesheet" href="index.css">
                 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         </head>
 
         <!-- body of the HTML content -->
         <body>
                 <!--div to allow manipulation of the content and suggestion area using Vue JavaScript framework-->
-                <div id="app">
+                <div id="app" class="bg-light">
 
                         <!-- The content header -->
-                        <div class="header">
-                                <h1>G4 Spell Checker Machine</h1>
-                        </div>
-        
+                        <div class="container px-4 pt-4">
+                                <div class="d-flex align-items-center p-3 my-3 text-white bg-blue rounded shadow-sm">
+                                        <div class="lh-1 p-3">
+                                                <h1 class="h3 mb-0 text-white lh-1">G4 Spell Checker Machine</h1>
+                                        </div>
+                                </div>
                         <!-- The menu to use to manipulate the HTML page -->
-                        <div class="whole">
-                                <div class="menu">
-                                        <a id = 'nd'  class = "button">New Document</a>
-                                        <a id = 'uf' class = "button">Upload file</a>
-                                        <a id = 'df' class = "button">Download file</a>
-                                        <a id = 'prt' class = "button">Print</a>
+                        <div class="row g-3 py-3 pt-5 row-cols-1 row-cols-lg-2">
+                                <div class="col">
+                                        <button id='nd' type="button" class="btn  btn-sm btn-outline-primary">New Document</button>
+                                        <button id='uf' type="button" class="btn  btn-sm btn-outline-primary">Upload file</button>
+                                        <button id='df' type="button" class="btn  btn-sm btn-outline-primary">Download file</button>
+                                        <button id='prt' type="button" class="btn  btn-sm btn-outline-primary">Print</button>
 
                                 </div>
         
                                 <!-- The text area to collect the texts to be checked -->
-                                <div class="main">
-								<div>
-                                                                        <button @click="setLanguage('english')" class='button' data-reload>English</button>
-                                                                        <button @click="setLanguage('irish')"  class='button' data-reload>Irish</button>
-								</div>
-								<br>
-                                 <div class="text-body" id = "mainContentBox" contenteditable="true" spellcheck="false" @input="event => onInput(event)" 
+                                <div class="col">
+                                        <div class="row justify-content-end">
+					        <div class="col-auto">
+                                                        <button v-if="language === 'irish'" @click="setLanguage('english')" class='btn btn-sm btn-primary' data-reload>Change Language to English</button>
+                                                        <button v-if="language === 'english'" @click="setLanguage('irish')"  class='btn btn-sm  btn-primary' data-reload>Change Language to Irish</button>
+					        </div>
+					</div>
+                                </div>
+                        </div>
+                        
+                        <div class="row">
+                                <div class="col">
+                                        <div>
+                                                <div class="text-body" id = "mainContentBox" contenteditable="true" spellcheck="false" @input="event => onInput(event)" 
                                                 data-placeholder="Type or paste your text here or upload document!" v-html="richText">
-                                        </div>
+                                                </div>
 
-	                                <button @click="checkTextGrammar" id = 'CSbutton'>Check Spelling</button>
+	                                        <button v-if="!loading" @click="checkTextGrammar" id = 'CSbutton' class='btn btn-sm btn-primary mt-2'>Check Spelling</button>
+                                                <button v-if="loading" class="btn btn-primary btn-sm  mt-2" type="button" disabled>
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                Loading...
+                                                </button>
+                                        </div>
                                 </div>
         
                                 <!-- The correction area to display the suggested texts -->
-                                <div class="right" >
-                                        <p id="suggest-text">Corrected suggestions</p>
-                                        <ul>
-                                                <li v-for=" (word, index) in correctedWords"> {{ word.correct }} <button
-                                                @click="replaceWord(word)" id = 'rpl' >replace</button></li>
-                                        </ul>
+                                <div class="col">
+                                        <div class="right" >
+                                                <h5 id="suggest-text">Corrected suggestions</h5>
+                                                <ul>
+                                                        <li v-for=" (word, index) in correctedWords"> {{ word.correct }} <button class="btn btn-sm btn-link"
+                                                        @click="replaceWord(word)" id = 'rpl' >replace</button></li>
+                                                </ul>
+                                        </div>
                                 </div>
                         </div>
-                        Irish response: {{ irishResponse }} <br>
-                        Language: {{ language }}
-        
+                        
                         <!-- The footer of the HTML page -->
-                        <div class="footer" id ='ftr'>© copyright Group-4 CSCI-5030 2021</div>
+                        <div class="row">
+                                <div class="col">
+                                        <div class="footer mt-5 mb-1 text-white bg-blue rounded shadow-sm" id ='ftr'>© copyright Group-4 CSCI-5030 2021</div>
+                                </div>
+                        </div>
+                        </div>
                 </div>
                         <!--Java Script-->
                         <script>
-						
-				// Script for Multi-Lingual Frontend 
-				var DataReload = document.querySelectorAll("[data-reload]");											
-				window.addEventListener('hashchange', function () {  						
-					//Defining language via window hash
-					if(window.location.hash) {
-						if(window.location.hash == "#irish"){
-						        document.getElementById("nd").innerText = "Doiciméad nua";
-						        document.getElementById("uf").innerText = "Uaslódáil comhad";
-						        document.getElementById("df").innerText = "Íoslódáil an comhad";
-						        document.getElementById("prt").innerText = "Priontáil";
-						        document.getElementById("CSbutton").innerText = "Seiceáil Litriú";	
-						        document.getElementById("suggest-text").innerText = "Moltaí ceartaithe";
-						        document.getElementById("rpl").innerText = "ionad";
-						        document.getElementById("ftr").innerText = "© cóipcheart Grúpa-4 CSCI-5030 2021";
+				
+                                // Script for Backend
+                                var app = new Vue({
+                                        el: '#app',
+                                        data: {
+                                                irishResponse: "N/A",
+                                                language: 'english',
+                                                message: 'Hello Vue!',
+                                                text: '',
+                                                loading: false,
+                                                richText: null,
+                                                event: null,
+                                                correctedWords: [],
+                                                timeoutQuery: null
+                                        },
+                                        methods: {
+				       // Script for Multi-Lingual Frontend 
+                                                setLanguage(lang){  
+                                                        this.language = lang; 
+						        if(this.language === "irish"){
+						                document.getElementById("nd").innerText = "Doiciméad nua";
+						                document.getElementById("uf").innerText = "Uaslódáil comhad";
+						                document.getElementById("df").innerText = "Íoslódáil an comhad";
+						                document.getElementById("prt").innerText = "Priontáil";
+						                document.getElementById("CSbutton").innerText = "Seiceáil Litriú";	
+						                document.getElementById("suggest-text").innerText = "Moltaí ceartaithe";
+						                document.getElementById("rpl").innerText = "ionad";
+						                document.getElementById("ftr").innerText = "© cóipcheart Grúpa-4 CSCI-5030 2021";
 						} 
-						else if(window.location.hash == "#english"){
+						else {
 						        document.getElementById("nd").innerText = "New Document";
 						        document.getElementById("uf").innerText = "Upload file";
 						        document.getElementById("df").innerText = "Download file";
@@ -86,35 +119,21 @@
 						        document.getElementById("suggest-text").innerText = "Corrected suggestions";
 						        document.getElementById("rpl").innerText = "replace";
 						        document.getElementById("ftr").innerText = "© copyright Group-4 CSCI-5030 2021";
-						}
-
-						//Language reload onclick iteration 
-						for (i=0; i<= DataReload.length; i++) {
-						        DataReload[i] = function () { location.reload(true); };
-						}						
-					}
-				}, false);
-						
-				// Script for Backend
-                                var app = new Vue({
-                                        el: '#app',
-                                        data: {
-                                                message: 'Hello Vue!',
-                                                text: '',
-                                                richText: null,
-                                                event: null,
-                                                correctedWords: [],
-                                                timeoutQuery: null
-                                        }, 
-                                        methods: {
+						}	
+					},			                                        
                                                 async checkTextGrammar() {
+
+                                                        this.loading = true;
+                                                        let url = 'http://127.0.0.1:5000/api/v1/check';
+                                                        if (this.language === "irish") {
+                                                        url = 'http://127.0.0.1:5000/api/v1/check/irish';
+                                                        }
+
                                                         // strip html tags
                                                         const txt = this.text.replaceAll(/(<([^>]+)>)/ig, '');
                                                   
                                                         // Get corrections from api
-                                                        axios
-                                                                .post('http://127.0.0.1:5000/api/v1/check', { text: txt })
-                                                                .then(response => {
+                                                        axios.post(url, { text: txt }).then(response => {
                                                   
                                                                          const existingCorrections = this.correctedWords;
                                                                          // Set text corrections
@@ -132,6 +151,8 @@
                                                                 })
                                                                 .catch(error => {
                                                                         this.answer = 'Error! Could not reach the API. ' + error
+                                                                }).finally( ()=>{
+                                                                          this.loading = false;
                                                                 })
                                                 },
                                                 replaceWord(word) {

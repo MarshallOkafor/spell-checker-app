@@ -61,7 +61,7 @@ body {
 
 /* style of the header for the suggestion area */
 #suggest-text{
-	color: black;
+	color: #607d8b;
 	font-weight: bold;
 }
 
@@ -78,14 +78,15 @@ input[type=text], select{
 
 /* style of the suggestion area */
 .right {
-  background-color: LightSteelBlue;
+  background-color: #fff;
   float: left;
-  width: 40%;
-  margin-top: 7px;
-  padding: 2px;
+  width: 100%;
+  padding: 16px;
   text-align: left;
-  height: 450px;
-  color: black;
+  border-radius: 0.25rem;
+  height: 300px;
+  color: rgb(109, 107, 107);
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
 }
 
 /* Ensure that the width remains uniform when resized */
@@ -110,16 +111,21 @@ input[type=text], select{
 .text-body {
   width: 100%;
   height: auto;
-  min-height: 88%;
-  border: 1px #000000 solid;
-	margin-top: 2px;
+  min-height: 300px;
+  border: 1px #adb5bd solid;
+  border-radius: 4px;
   padding: 8px;
   font-size: 12px;
   overflow: scroll;
+  background-color: #fff;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
 }
 .text-body:empty:before {
   content: attr(data-placeholder);
 }
 .text-error {
   border-bottom: 3px solid rgb(255, 153, 171);
+}
+.bg-blue {
+  background-color: #1565c0;
 }
