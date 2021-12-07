@@ -10,7 +10,7 @@ from flask import Flask, render_template, request, jsonify, make_response
 from flask_cors import CORS
 from dotenv import load_dotenv
 from irishspell import correction, isValidWord
-
+import re
 # Initializes Flask app
 app = Flask(__name__)   
 CORS(app)
@@ -35,14 +35,18 @@ def checkText():
 def check():
     text = request.get_json()["text"]            # Get text from front end as a JSON string
     iwords = text.strip().lower().split()
-    
+    text = text.strip().split() 
     corrections = []
     
-    for word in iwords:
+    for i, word in enumerate(iwords):
         if isValidWord(word):
             correctedWord = correction(word)
             if correctedWord != word:
-                correctWord = {"correct":correctedWord,"start": 0, "text":word } 
+                if re.search(correctedWord, text[i], re.IGNORECASE) :
+                  positions = re.search(correctedWord, text[i], re.IGNORECASE).span()
+                  correctedWord = text[i][positions[0]:positions[1]]
+                  print(correctedWord)
+                correctWord = {"correct":correctedWord,"start": 0, "text":text[i] } 
                 corrections.append(correctWord)
                 
     return make_response(jsonify({
