@@ -24,7 +24,7 @@ def correction(word):
 
 def candidates(word):
     # Generate possible spelling corrections for word.
-    return (known([word]) or known(level_one_edit(word)) or known(edits2(word)) or [word])
+    return (known([word]) or known(level_one_edit(word)) or known(level_two_edit(word)) or [word])
 
 
 def known(words):
