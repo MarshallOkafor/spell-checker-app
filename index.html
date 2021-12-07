@@ -26,10 +26,10 @@
                         <!-- The menu to use to manipulate the HTML page -->
                         <div class="row g-3 py-3 pt-5 row-cols-1 row-cols-lg-2">
                                 <div class="col">
-                                        <button id='nd' type="button" class="btn  btn-sm btn-outline-primary">New Document</button>
-                                        <button id='uf' type="button" class="btn  btn-sm btn-outline-primary">Upload file</button>
-                                        <button id='df' type="button" class="btn  btn-sm btn-outline-primary">Download file</button>
-                                        <button id='prt' type="button" class="btn  btn-sm btn-outline-primary">Print</button>
+                                        <button id='clr' type="button" class="btn  btn-sm btn-outline-primary" onclick="getElementById('mainContentBox').innerHTML = ''" >Clear</button>
+                                        <button id='uf' type="button" class="btn  btn-sm btn-outline-primary" >Upload file</button>
+                                        <button id='df' type="button" class="btn  btn-sm btn-outline-primary" onclick="downloadText()">Download file</button>
+                                        <button id='prt' type="button" class="btn  btn-sm btn-outline-primary" onclick="printText()">Print</button>
 
                                 </div>
         
@@ -47,7 +47,7 @@
                         <div class="row">
                                 <div class="col">
                                         <div>
-                                                <div class="text-body" id = "mainContentBox" contenteditable="true" spellcheck="false" @input="event => onInput(event)" 
+                                                <div class="text-body" id = "mainContentBox" contenteditable="true" spellcheck="false" @input="event => onInput(event)"
                                                 data-placeholder="Type or paste your text here or upload document!" v-html="richText">
                                                 </div>
 
@@ -101,7 +101,7 @@
                                                 setLanguage(lang){  
                                                         this.language = lang; 
 						        if(this.language === "irish"){
-						                document.getElementById("nd").innerText = "Doiciméad nua";
+						                document.getElementById("clr").innerText = "soiléir";
 						                document.getElementById("uf").innerText = "Uaslódáil comhad";
 						                document.getElementById("df").innerText = "Íoslódáil an comhad";
 						                document.getElementById("prt").innerText = "Priontáil";
@@ -111,7 +111,7 @@
 						                document.getElementById("ftr").innerText = "© cóipcheart Grúpa-4 CSCI-5030 2021";
 						} 
 						else {
-						        document.getElementById("nd").innerText = "New Document";
+						        document.getElementById("clr").innerText = "Clear";
 						        document.getElementById("uf").innerText = "Upload file";
 						        document.getElementById("df").innerText = "Download file";
 						        document.getElementById("prt").innerText = "Print";
@@ -171,11 +171,47 @@
                                                 },
                                         },
                                         watch: {}  
-                                }) 								
-                                
-							 
-				
-							
+                                })
+                                // download function
+                                function downloadText() {
+
+                                        let msg = document.getElementById('mainContentBox'); // Get the data from each element on the form.
+                                        let data = msg.innerText;                                         // This variable stores all the data.
+
+                                        // Convert the text to BLOB.
+                                        const textToBLOB = new Blob([data], { type: 'text/plain' });
+                                        const sFileName = 'Download.txt';	   // The file to save the data.
+
+                                        let newLink = document.createElement("a");
+                                        newLink.download = sFileName;
+
+                                        if (window.webkitURL != null) {
+                                                newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+                                        }
+                                        else {
+                                                newLink.href = window.URL.createObjectURL(textToBLOB);
+                                                newLink.style.display = "none";
+                                                document.body.appendChild(newLink);
+                                        }
+
+                                        newLink.click();
+                                }
+
+                                // printbutton function
+                                function printText()
+                                {
+                                        var printContent = document.getElementById('mainContentBox').innerText;
+                                        var windowUrl = 'about:blank';
+                                        var windowName = 'Print' + new Date().getTime();
+                                        var printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');
+                                        var rex = /\n/g;
+                                        printContent = printContent.replace(rex, "<br>");
+                                        printWindow.document.write(printContent);
+                                        printWindow.document.close();
+                                        printWindow.focus();
+                                        printWindow.print();
+                                        printWindow.close();
+                                }
                         </script>
 
         </body>
