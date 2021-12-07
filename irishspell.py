@@ -5,6 +5,7 @@ import re # Regular Expressions
 from collections import Counter
 import string
 from flask_cors import CORS
+import re
 
 # Defining the language model and error model
 def words(text):
@@ -94,10 +95,12 @@ def read_file(filename):
         
         if isValidWord:
             irishWord = testWord.strip()
-
-          #print(irishWord)
-            f.write(f"{correction(irishWord)}\n")
-            # print(correction(irishWord))
+            correct_word = correction(irishWord)
+            if re.search(correct_word, irishWord, re.IGNORECASE) :
+              positions = re.search(correct_word, irishWord, re.IGNORECASE).span()
+              correct_word = irishWord[positions[0]:positions[1]] 
+              
+            f.write(f"{correct_word}\n")
         else:
             f.write(f"{testWord}\n")
 
