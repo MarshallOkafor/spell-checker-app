@@ -40,14 +40,16 @@ def check():
     
     for i, word in enumerate(iwords):
         if isValidWord(word):
-            correctedWord = correction(word)
-            if correctedWord != word:
-                if re.search(correctedWord, text[i], re.IGNORECASE) :
-                  positions = re.search(correctedWord, text[i], re.IGNORECASE).span()
-                  correctedWord = text[i][positions[0]:positions[1]]
-                  print(correctedWord)
-                correctWord = {"correct":correctedWord,"start": 0, "text":text[i] } 
-                corrections.append(correctWord)
+            print(word)
+            irishWord = word.strip()
+            correct_word = correction(irishWord)
+            if irishWord[0].isupper():
+              
+              correct_word = correct_word[:1].upper()+correct_word[1:]
+              print(correct_word)
+              print(word)
+            correctWord = {"correct":correct_word,"start": 0, "text":word } 
+            corrections.append(correctWord)
                 
     return make_response(jsonify({
         "status": "success", "data": { "corrections": corrections }    # Returns corrected text
