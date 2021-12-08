@@ -100,7 +100,6 @@
                                                         this.language = lang; 
 						        if(this.language === "irish"){
 						                document.getElementById("clr").innerText = "soiléir";
-						                document.getElementById("uf").innerText = "Uaslódáil comhad";
 						                document.getElementById("df").innerText = "Íoslódáil an comhad";
 						                document.getElementById("prt").innerText = "Priontáil";
 						                document.getElementById("CSbutton").innerText = "Seiceáil Litriú";	
@@ -110,7 +109,6 @@
 						} 
 						else {
 						        document.getElementById("clr").innerText = "Clear";
-						        document.getElementById("uf").innerText = "Upload file";
 						        document.getElementById("df").innerText = "Download file";
 						        document.getElementById("prt").innerText = "Print";
 						        document.getElementById("CSbutton").innerText = "Check Spelling";
@@ -141,7 +139,11 @@
                                                                          this.correctedWords.forEach(word => {
                                                                                  const existingCorrection = existingCorrections.find(exWord => exword.text === word.text)
                                                                                  console.log(word);
-                                                                                 newTex = newTex.replace(word.text, `<span class="text-error">${word.text}</span>`)
+                                                                                 if(this.language === "english"){
+                                                                                        newTex = newTex.replace(new RegExp("\\b"+word.text+"\\b"), `<span class="text-error">${word.text}</span>`);
+                                                                                } else{
+                                                                                        newTex = newTex.replace(word.text, `<span class="text-error">${word.text}</span>`);
+                                                                                }
                                                         
                                                                          });
                                                                          this.richText = newTex
