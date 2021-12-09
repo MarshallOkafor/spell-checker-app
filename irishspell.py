@@ -1,68 +1,111 @@
 # Python program to defining a lanaguage model for unsupervised spell checking specifically for Irish language
-
-#Importing the necessary modules to be used in the program
+# Importing the necessary modules to be used in the program
+# MIT license: www.opensource.org/licenses/mit-license.php
 import re # Regular Expressions
 from collections import Counter
 import string
 from flask_cors import CORS
+import re
 
-# Defining the language model
-def split(word):
-    return [(word[:i], word[i:]) for i in range(len(word) + 1)]  #
+# Defining the language model and error model
+def words(text):
+    return re.findall(r'\w+', text.lower()) 
 
+WORDS = Counter(words(open('bible.txt', encoding="utf-8").read()))
 
-def delete(word):
-    return [l + r[1:] for l, r in split(word) if r]  # l,r left, right for above
-
-
-# all the above words printed will be suggested, but we need only valid words that in the textfile
-
-def swap(word):
-    return [l + r[1] + r[0] + r[2:] for l, r in split(word) if len(r) > 1]
+def P(word, N=sum(WORDS.values())):
+    # Probability of word
+    return WORDS[word] / N
 
 
-def replace(word):
-    letters = string.ascii_lowercase
-    return [l + c + r[1:] for l, r in split(word) if r for c in letters]
+def correction(word):
+    # Most probable spelling correction for word
+    return max(candidates(word), key=P)
 
 
-def insert(word):
-    letters = string.ascii_lowercase
-    return [l + c + r for l, r in split(word) for c in letters]
+def candidates(word):
+    # Generate possible spelling corrections for word.
+    return (known([word]) or known(level_one_edit(word)) or known(level_two_edit(word)) or [word])
 
 
-def level_one_edit(word):  # perform all operations
-    return set(delete(word) + swap(word) + replace(word) + insert(word))
+def known(words):
+    # The subset of `words` that appear in the dictionary of WORDS.
+    return set(w for w in words if w in WORDS)
+
+
+def level_one_edit(word):
+    # All edits that are one edit away from word.
+    letters    = 'áéíóúabcdefghijklmnopqrstuvwxyz'
+    splits     = [(word[:i], word[i:])    for i in range(len(word) + 1)]
+    deletes    = [L + R[1:]               for L, R in splits if R]
+    swap       = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R)>1]
+    replaces   = [L + c + R[1:]           for L, R in splits if R for c in letters]
+    inserts    = [L + c + R               for L, R in splits for c in letters]
+    return set(deletes + swap + replaces + inserts)
 
 
 def level_two_edit(word):
-    return set(
-        e2 for e1 in level_one_edit(word) for e2 in level_one_edit(e1))  
+    # All edits that are two edits away from word.
+    return (e2 for e1 in level_one_edit(word) for e2 in level_one_edit(e1))  
 
-# function to process and check the word entered by the user
-def correct_spelling(word, text, word_probability):
-    guesses = []
-    if word in text:
-        # print(word)
-        return guesses
+# function to handle invalid irish words
+def isValidWord(word):
 
-    suggestions = level_one_edit(word) or level_two_edit(word) or [word]
-    best_guesses = [w for w in suggestions if w in text]
-    return [(w, word_probability[w]) for w in best_guesses]
+    #check for valid irish words
+    letters    = 'áéíóúabcdefghijklmnopqrstuvwxyz'
+    isValidWord = False
+
+    if word == "\\n":
+        return False
+               
+
+    for wordletter in word:
+        if wordletter in letters:
+            isValidWord = True
+            break
+        
+    if isValidWord:
+        return True
+    else:
+        return False
 
 def read_file(filename):
-    with open(filename, 'r', encoding='ANSI') as file:
-        text = file.readlines()
-        words = []
 
-    for line in text:
-        words = words + re.findall(r'\w+', line.lower())  # RE for making a words list from file
-    
-    
-    return words
+    #check for valid irish words
+    letters    = 'áéíóúabcdefghijklmnopqrstuvwxyz'
 
-words = read_file("output.txt") # not as same as above words list
-unique_words = set(words)
-word_count = Counter(words) # words_count is a dictionary, counts number of each word occurence and stores in dictionary, eg: 'the':613
-total_word_count = float(sum(word_count.values())) # values return value in dictionary
-word_probability = { word: word_count[word] / total_word_count for word in word_count.keys()} # dict comprehension, word stores each word probability
+    file = open(filename, encoding="utf-8")
+
+    f = open("newOutput.txt", "a", encoding="utf-8")
+
+    for fileLine in file:
+        # Get line of file and covert it to a list
+        wordRow = fileLine.split()
+        isValidWord = False
+
+        for testWord in wordRow:
+            if testWord == "\\n":
+               break
+               
+
+            for wordletter in testWord:
+                if wordletter in letters:
+                    isValidWord = True
+                    break
+        
+        if isValidWord:
+            irishWord = testWord.strip()
+            correct_word = correction(irishWord)
+            if re.search(correct_word, irishWord, re.IGNORECASE) :
+              positions = re.search(correct_word, irishWord, re.IGNORECASE).span()
+              correct_word = irishWord[positions[0]:positions[1]] 
+              
+            f.write(f"{correct_word}\n")
+        else:
+            f.write(f"{testWord}\n")
+
+    file.close()
+
+# Test Code
+if __name__ == '__main__':
+    read_file("input-test.txt")

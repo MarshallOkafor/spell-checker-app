@@ -9,8 +9,8 @@ from gingerit.gingerit import GingerIt
 from flask import Flask, render_template, request, jsonify, make_response  
 from flask_cors import CORS
 from dotenv import load_dotenv
-from irishspell import correct_spelling, unique_words, word_probability
-
+from irishspell import correction, isValidWord
+import re
 # Initializes Flask app
 app = Flask(__name__)   
 CORS(app)
@@ -35,24 +35,22 @@ def checkText():
 def check():
     text = request.get_json()["text"]            # Get text from front end as a JSON string
     iwords = text.strip().lower().split()
-    guesses = []
-    r = []
+    text = text.strip().split() 
     corrections = []
     
-    for word in iwords:
-        guesses = correct_spelling(word, unique_words, word_probability)   # guesses contain a word and its probability
-        if len(guesses) != 0:
-            cor_word, num = map(list, zip(*guesses))  # breaking guesses list to 2 lists
-            n = num.index(max(num))      # finding index of max probability
-            r.append(cor_word[n])
-            correction = {"correct":cor_word[n],"start": n, "text":word } 
-            corrections.append(correction)
-        else:
-            r.append(word)
-
-        res = " "
-        res = r
-    print(corrections)
+    for i, word in enumerate(iwords):
+        if isValidWord(word):
+            print(word)
+            irishWord = word.strip()
+            correct_word = correction(irishWord)
+            if irishWord[0].isupper():
+              
+              correct_word = correct_word[:1].upper()+correct_word[1:]
+              print(correct_word)
+              print(word)
+            correctWord = {"correct":correct_word,"start": 0, "text":word } 
+            corrections.append(correctWord)
+                
     return make_response(jsonify({
         "status": "success", "data": { "corrections": corrections }    # Returns corrected text
         }), 200)
